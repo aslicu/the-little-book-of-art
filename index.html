@@ -725,8 +725,21 @@
       color: rgba(151, 117, 48, 0.90);
       font-family: "Lora", Georgia, serif;
       font-size: clamp(1.20rem, 1.8vw, 1.48rem);
-      font-weight: 500;
+      font-weight: 400;
       line-height: 1.25;
+    }
+
+    .about-project-name {
+      font-style: italic;
+      font-weight: 500;
+      letter-spacing: 0.004em;
+    }
+
+    .about-inline-project-name {
+      font-style: italic;
+      font-weight: 500;
+      color: rgba(72, 66, 58, 0.96);
+      letter-spacing: 0.002em;
     }
 
     .about-text {
@@ -977,7 +990,7 @@
     </section>
 
     <section class="about-section" aria-labelledby="about-title">
-      <h2 id="about-title" class="about-title">The Little Book of Art Hakkında</h2>
+      <h2 id="about-title" class="about-title"><span class="about-project-name">The Little Book of Art</span> Hakkında</h2>
       <p id="about-text-1" class="about-text"></p>
       <p id="about-text-2" class="about-text"></p>
     </section>
@@ -1030,8 +1043,8 @@
         untitled: 'İsimsiz Eser',
         unknownArtist: 'Sanatçı bilinmiyor',
         noDescription: 'Bu eser için henüz bir açıklama bulunmuyor.',
-        aboutTitle: 'The Little Book of Art Hakkında',
-        aboutText1: 'The Little Book of Art, sanatla bağ kurmayı kolaylaştırmak için tasarlanmış, yapay zekâ destekli bir sanat keşif projesidir. Sanat tarihi bilgisi gerektirmeyen, kolay okunur metinler aracılığıyla müze koleksiyonlarındaki kamu malı eserleri keşfetmenizi sağlar. Bu metinler her eserin bağlamını, ayırt edici ayrıntılarını ve sanatçının renk, kompozisyon ve görsel anlatım tercihlerini görünür kılar. Amaç size hazır bir yorum sunmak değil, daha yakından bakmanıza ve kendi yorumunuzu oluşturmanıza yardımcı olmaktır.',
+        aboutTitle: '<span class="about-project-name">The Little Book of Art</span> Hakkında',
+        aboutText1: '<span class="about-inline-project-name">The Little Book of Art</span>, sanatla bağ kurmayı kolaylaştırmak için tasarlanmış, yapay zekâ destekli bir sanat keşif projesidir. Sanat tarihi bilgisi gerektirmeyen, kolay okunur metinler aracılığıyla müze koleksiyonlarındaki kamu malı eserleri keşfetmenizi sağlar. Bu metinler her eserin bağlamını, ayırt edici ayrıntılarını ve sanatçının renk, kompozisyon ve görsel anlatım tercihlerini görünür kılar. Amaç size hazır bir yorum sunmak değil, daha yakından bakmanıza ve kendi yorumunuzu oluşturmanıza yardımcı olmaktır.',
         aboutText2: 'Metinler büyük dil modellerinin desteğiyle oluşturulur ve yayımlanmadan önce dil, açıklık ve içerik tutarlılığı açısından gözden geçirilir. Bir sanat tarihçisi tarafından incelenmez.'
       },
       en: {
@@ -1048,8 +1061,8 @@
         untitled: 'Untitled Artwork',
         unknownArtist: 'Unknown artist',
         noDescription: 'No description is available for this artwork yet.',
-        aboutTitle: 'About The Little Book of Art',
-        aboutText1: 'The Little Book of Art is an AI-assisted art discovery project designed to make it easier to connect with art. It lets you explore public-domain works from museum collections through easy-to-read texts that require no prior knowledge of art history. These texts bring each artwork’s context, distinctive details, and the artist’s choices in color, composition, and visual storytelling into view. The aim is not to give you a ready-made interpretation, but to help you look more closely and form your own.',
+        aboutTitle: 'About <span class="about-project-name">The Little Book of Art</span>',
+        aboutText1: '<span class="about-inline-project-name">The Little Book of Art</span> is an AI-assisted art discovery project designed to make it easier to connect with art. It lets you explore public-domain works from museum collections through easy-to-read texts that require no prior knowledge of art history. These texts bring each artwork’s context, distinctive details, and the artist’s choices in color, composition, and visual storytelling into view. The aim is not to give you a ready-made interpretation, but to help you look more closely and form your own.',
         aboutText2: 'Texts are created with the support of large language models and reviewed for language, clarity, and content consistency before publication. They are not reviewed by an art historian.'
       }
     };
@@ -1706,8 +1719,8 @@
       ui.languageToggle.title = t('chooseLanguage');
       ui.zoomClose.setAttribute('aria-label', t('close'));
       ui.zoomClose.title = t('close');
-      ui.aboutTitle.textContent = t('aboutTitle');
-      ui.aboutText1.textContent = t('aboutText1');
+      ui.aboutTitle.innerHTML = t('aboutTitle');
+      ui.aboutText1.innerHTML = t('aboutText1');
       ui.aboutText2.textContent = t('aboutText2');
 
       ui.languageOptions.forEach(option => {
