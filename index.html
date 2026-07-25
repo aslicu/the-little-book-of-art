@@ -3,331 +3,1173 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
+  <meta name="theme-color" content="#f4f0e8" />
   <title>The Little Book of Art</title>
 
-  <script src="https://cdn.tailwindcss.com"></script>
-
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link
-    href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Lora:ital,wght@0,400;0,500;1,400&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Lora:ital,wght@0,400;0,500;1,400;1,500&display=swap"
     rel="stylesheet"
-  >
+  />
 
   <style>
-    ::-webkit-scrollbar {
-      display: none;
+    :root {
+      --background: #f4f0e8;
+      --background-deep: #ece5da;
+      --surface: #faf7f1;
+      --surface-soft: #f6f1e8;
+      --image-mat: #e8dfd2;
+      --image-background: #171411;
+      --text: #2d2924;
+      --body-text: #625d55;
+      --muted-text: #887f73;
+      --gold: #9f7d34;
+      --gold-soft: #b49348;
+      --line: rgba(92, 76, 44, 0.14);
+      --line-strong: rgba(180, 147, 72, 0.34);
+      --page-width: 1220px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
     }
 
     body {
-      background-color: #0a0a0c;
-      background-image:
-        radial-gradient(circle at center, #1a1a2e 0%, #0a0a0c 100%);
-      font-family: 'Lora', serif;
+      min-height: 100vh;
+      margin: 0;
+      background:
+        radial-gradient(
+          circle at 50% 7%,
+          rgba(255, 255, 255, 0.92),
+          transparent 32%
+        ),
+        linear-gradient(
+          145deg,
+          #f7f3ec 0%,
+          #eee8dd 100%
+        );
+      color: var(--body-text);
+      font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
     }
 
-    .magical-glow {
-      box-shadow:
-        0 0 40px rgba(0, 0, 0, 0.8),
-        0 0 20px rgba(197, 160, 89, 0.05);
+    button {
+      font: inherit;
+      -webkit-tap-highlight-color: transparent;
     }
 
-    .title-font {
-      font-family: 'Cinzel', serif;
+    [hidden] {
+      display: none !important;
     }
 
-    .gold-text {
-      color: #c5a059;
+    .page {
+      width: min(calc(100% - 48px), var(--page-width));
+      margin: 0 auto;
+      padding: 26px 0 42px;
     }
 
-    .ornament {
+    .project-header {
       position: relative;
-      border: 1px solid rgba(197, 160, 89, 0.2);
-      padding: 10px;
+      margin: 0 auto 29px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+
+    .project-title {
+      margin: 0;
+      display: inline-flex;
+      align-items: baseline;
+      justify-content: center;
+      gap: 0.17em;
+      color: rgba(151, 117, 48, 0.82);
+      font-family: "Lora", Georgia, serif;
+      font-weight: 400;
+      line-height: 1;
+      white-space: nowrap;
+    }
+
+    .project-title-small {
+      font-size: clamp(0.82rem, 1.08vw, 0.96rem);
+      font-style: italic;
+    }
+
+    .project-title-large {
+      font-size: clamp(1.34rem, 1.92vw, 1.72rem);
+      font-weight: 500;
+      letter-spacing: 0.006em;
+    }
+
+    .project-title-line {
+      width: 74px;
+      height: 1px;
+      margin-top: 12px;
+      background: linear-gradient(
+        to right,
+        transparent,
+        rgba(180, 147, 72, 0.34),
+        transparent
+      );
+    }
+
+    .project-intro {
+      max-width: 660px;
+      margin: 13px auto 0;
+      color: rgba(98, 93, 85, 0.75);
+      font-family: "Lora", Georgia, serif;
+      font-size: 0.78rem;
+      font-style: italic;
+      line-height: 1.55;
+    }
+
+    .header-actions {
+      position: absolute;
+      top: -3px;
+      right: 0;
+      z-index: 20;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .language-wrap {
+      position: relative;
+    }
+
+    .language-toggle {
+      border: 1px solid rgba(92, 76, 44, 0.15);
+      background: rgba(250, 247, 241, 0.70);
+      color: #8d6c2d;
+      box-shadow: 0 8px 22px rgba(71, 57, 36, 0.06);
+      cursor: pointer;
+      transition:
+        color 170ms ease,
+        border-color 170ms ease,
+        background 170ms ease,
+        transform 170ms ease,
+        box-shadow 170ms ease;
+    }
+
+    .language-toggle:hover,
+    .language-toggle:focus-visible {
+      color: #72531b;
+      border-color: rgba(180, 147, 72, 0.46);
+      background: rgba(255, 252, 247, 0.96);
+      box-shadow: 0 10px 25px rgba(71, 57, 36, 0.10);
+      transform: translateY(-1px);
+      outline: none;
+    }
+
+    .language-toggle {
+      width: 38px;
+      height: 38px;
+      padding: 0;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+    }
+
+    .language-toggle svg {
+      width: 18px;
+      height: 18px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 1.45;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .language-menu {
+      position: absolute;
+      top: 46px;
+      right: 0;
+      width: 76px;
+      padding: 6px;
+      border: 1px solid rgba(92, 76, 44, 0.15);
+      border-radius: 9px;
+      background: rgba(250, 247, 241, 0.98);
+      box-shadow: 0 16px 36px rgba(71, 57, 36, 0.14);
+    }
+
+    .language-option {
+      width: 100%;
+      padding: 9px 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 0;
+      border-radius: 6px;
+      background: transparent;
+      color: var(--body-text);
+      font-size: 0.72rem;
+      text-align: left;
+      cursor: pointer;
+    }
+
+    .language-option:hover,
+    .language-option:focus-visible,
+    .language-option.is-selected {
+      background: rgba(180, 147, 72, 0.09);
+      color: #806022;
+      outline: none;
+    }
+
+    .language-code {
+      color: var(--gold);
+      font-weight: 600;
+      letter-spacing: 0.06em;
+    }
+
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: clamp(18px, 2.2vw, 28px);
+      align-items: stretch;
+    }
+
+    .art-card {
+      position: relative;
+      min-width: 0;
+      padding: 17px 18px 18px;
+      display: flex;
+      flex-direction: column;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: linear-gradient(
+        145deg,
+        rgba(255, 252, 247, 0.99),
+        rgba(248, 244, 237, 0.99)
+      );
+      box-shadow: 0 20px 46px rgba(71, 57, 36, 0.09);
+      opacity: 1;
+      transform: translateY(0);
+      transition:
+        opacity 260ms ease,
+        transform 260ms ease,
+        box-shadow 190ms ease,
+        border-color 190ms ease;
+    }
+
+    .art-card:hover {
+      border-color: rgba(180, 147, 72, 0.27);
+      box-shadow: 0 24px 52px rgba(71, 57, 36, 0.12);
+      transform: translateY(-2px);
+    }
+
+    .art-card.is-changing,
+    .art-card.is-entering {
+      opacity: 0;
+      transform: translateY(7px);
+    }
+
+    .image-frame {
+      position: relative;
+      width: 88%;
+      height: 235px;
+      margin: 0 auto;
+      padding: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      border: 1px solid rgba(105, 88, 58, 0.18);
+      border-radius: 5px;
+      background: linear-gradient(145deg, #eee7dc, #e5dccf);
+      box-shadow:
+        0 9px 21px rgba(72, 56, 35, 0.12),
+        inset 0 1px 0 rgba(255, 255, 255, 0.64);
+      cursor: zoom-in;
+      transition:
+        border-color 170ms ease,
+        box-shadow 170ms ease,
+        transform 170ms ease;
+    }
+
+    .image-frame:hover,
+    .image-frame:focus-visible {
+      border-color: rgba(180, 147, 72, 0.48);
+      box-shadow:
+        0 12px 25px rgba(72, 56, 35, 0.16),
+        inset 0 1px 0 rgba(255, 255, 255, 0.68);
+      transform: translateY(-1px);
+      outline: none;
+    }
+
+    .art-image {
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: contain;
+      object-position: center;
+      border-radius: 2px;
+      background: #eee7dc;
+      opacity: 0;
+      transition: opacity 430ms ease;
+    }
+
+    .art-image.is-visible {
+      opacity: 1;
+    }
+
+    .image-loading {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      color: var(--muted-text);
+      font-size: 0.67rem;
+    }
+
+    .card-content {
+      flex: 1;
+      min-height: 0;
+      padding-top: 20px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .card-content::before {
+      content: none;
+      display: none;
+    }
+
+    .art-title {
+      margin: 0;
+      color: var(--text);
+      font-family: "Lora", Georgia, serif;
+      font-size: clamp(1.16rem, 1.45vw, 1.38rem);
+      font-weight: 500;
+      line-height: 1.18;
+      letter-spacing: -0.012em;
+    }
+
+    .art-artist {
+      margin: 5px 0 0;
+      color: #82796d;
+      font-family: "Lora", Georgia, serif;
+      font-size: 0.77rem;
+      font-style: italic;
+      line-height: 1.4;
+    }
+
+    .art-tags {
+      margin-top: 12px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
     }
 
     .art-tag {
+      position: relative;
+      min-height: 27px;
+      padding: 5px 9px;
       display: inline-flex;
       align-items: center;
-      padding: 7px 12px;
-
-      border: 1px solid rgba(197, 160, 89, 0.25);
-      background-color: rgba(197, 160, 89, 0.05);
-
-      color: #cfc6b4;
-      font-size: 0.75rem;
-      line-height: 1rem;
-      letter-spacing: 0.08em;
-
-      border-radius: 9999px;
+      gap: 5px;
+      overflow: hidden;
+      border: 1px solid rgba(92, 76, 44, 0.13);
+      border-radius: 999px;
+      background: rgba(180, 147, 72, 0.05);
+      color: #766e63;
+      font-size: 0.59rem;
+      font-weight: 500;
+      line-height: 1.1;
+      letter-spacing: 0.012em;
     }
 
-    .art-tag.hidden {
+    .art-tag-icon {
+      width: 12px;
+      height: 12px;
+      flex: 0 0 12px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: rgba(159, 125, 52, 0.78);
+    }
+
+    .art-tag-icon svg {
+      width: 100%;
+      height: 100%;
+      display: block;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 1.65;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .art-tag-text {
+      position: relative;
+      z-index: 1;
+    }
+
+    .art-tag-link {
+      text-decoration: none;
+      cursor: pointer;
+      transition:
+        color 180ms ease,
+        border-color 180ms ease,
+        background 180ms ease,
+        box-shadow 180ms ease,
+        transform 180ms ease;
+    }
+
+    .art-tag-museum-link {
+      padding-right: 8px;
+      border-color: rgba(180, 147, 72, 0.25);
+      background: rgba(180, 147, 72, 0.075);
+      box-shadow: 0 0 0 1px rgba(180, 147, 72, 0.025);
+    }
+
+    .art-tag-sparkle {
+      position: relative;
+      z-index: 2;
+      width: 10px;
+      height: 10px;
+      margin-left: 2px;
+      display: inline-grid;
+      place-items: center;
+      color: #b88f37;
+      font-size: 0.68rem;
+      line-height: 1;
+      opacity: 0.30;
+      transform: scale(0.72) rotate(-8deg);
+      filter: drop-shadow(0 0 0 rgba(202, 162, 73, 0));
+      animation: museum-tag-sparkle 3.4s ease-in-out infinite;
+      transform-origin: center;
+      pointer-events: none;
+    }
+
+    .art-tag-museum-link:hover .art-tag-sparkle,
+    .art-tag-museum-link:focus-visible .art-tag-sparkle {
+      color: #c59a3c;
+      opacity: 1;
+      animation-duration: 1.65s;
+    }
+
+
+    .art-tag-link:hover,
+    .art-tag-link:focus-visible {
+      color: #806022;
+      border-color: rgba(180, 147, 72, 0.52);
+      background: rgba(180, 147, 72, 0.13);
+      box-shadow:
+        0 4px 12px rgba(125, 94, 34, 0.08),
+        0 0 0 1px rgba(180, 147, 72, 0.07);
+      transform: translateY(-1px);
+      outline: none;
+    }
+
+
+    @keyframes museum-tag-sparkle {
+      0%, 58%, 100% {
+        opacity: 0.24;
+        transform: scale(0.70) rotate(-8deg);
+        filter: drop-shadow(0 0 0 rgba(202, 162, 73, 0));
+      }
+      66% {
+        opacity: 1;
+        transform: scale(1.24) rotate(8deg);
+        filter:
+          drop-shadow(0 0 2px rgba(202, 162, 73, 0.72))
+          drop-shadow(0 0 6px rgba(202, 162, 73, 0.38));
+      }
+      74% {
+        opacity: 0.42;
+        transform: scale(0.82) rotate(-4deg);
+        filter: drop-shadow(0 0 1px rgba(202, 162, 73, 0.20));
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .art-tag-sparkle {
+        animation: none;
+        opacity: 0.62;
+        transform: none;
+        filter: none;
+      }
+    }
+
+    .art-description {
+      margin: 15px 0 0;
+      padding-top: 0;
+      padding-right: 3px;
+      max-height: 220px;
+      overflow-y: auto;
+      border-top: 0;
+      color: #5f5a52;
+      font-family: "Lora", Georgia, serif;
+      font-size: 0.78rem;
+      line-height: 1.64;
+      text-align: justify;
+      text-align-last: left;
+      text-justify: inter-word;
+      hyphens: auto;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+
+    .art-description::-webkit-scrollbar {
       display: none;
+      width: 0;
+      height: 0;
+    }
+
+    .card-actions {
+      margin-top: auto;
+      padding-top: 17px;
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+    }
+
+    .next-card-button {
+      width: 34px;
+      height: 34px;
+      padding: 0;
+      display: grid;
+      place-items: center;
+      border: 1px solid rgba(92, 76, 44, 0.14);
+      border-radius: 50%;
+      background: rgba(250, 247, 241, 0.72);
+      color: #9a7630;
+      box-shadow: 0 7px 18px rgba(71, 57, 36, 0.06);
+      cursor: pointer;
+      opacity: 0.48;
+      transition:
+        opacity 160ms ease,
+        color 160ms ease,
+        border-color 160ms ease,
+        background 160ms ease,
+        transform 160ms ease,
+        box-shadow 160ms ease;
+    }
+
+    .art-card:hover .next-card-button,
+    .next-card-button:focus-visible {
+      opacity: 1;
+    }
+
+    .next-card-button:hover,
+    .next-card-button:focus-visible {
+      color: #72531b;
+      border-color: rgba(180, 147, 72, 0.48);
+      background: rgba(255, 252, 247, 0.98);
+      box-shadow: 0 10px 24px rgba(71, 57, 36, 0.11);
+      transform: translateY(-1px);
+      outline: none;
+    }
+
+    .next-card-button:disabled {
+      opacity: 0.28;
+      cursor: wait;
+      transform: none;
+    }
+
+    .next-card-button svg {
+      width: 17px;
+      height: 17px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 1.65;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      transition: transform 420ms cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .next-card-button:hover svg,
+    .next-card-button:focus-visible svg {
+      transform: rotate(72deg);
+    }
+
+    .zoom-dialog {
+      width: min(94vw, 1120px);
+      height: min(92vh, 860px);
+      padding: 0;
+      overflow: hidden;
+      border: 1px solid rgba(126, 101, 56, 0.22);
+      border-radius: 14px;
+      background:
+        linear-gradient(
+          145deg,
+          rgba(255, 253, 249, 0.99),
+          rgba(243, 237, 227, 0.99)
+        );
+      box-shadow:
+        0 34px 90px rgba(71, 57, 36, 0.22),
+        inset 0 1px 0 rgba(255, 255, 255, 0.88);
+    }
+
+    .zoom-dialog::backdrop {
+      background: rgba(80, 68, 51, 0.30);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+    }
+
+    .zoom-dialog[open] {
+      display: grid;
+      grid-template-rows: auto minmax(0, 1fr);
+    }
+
+    .zoom-toolbar {
+      min-height: 52px;
+      padding: 8px 10px 8px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      border-bottom: 1px solid rgba(92, 76, 44, 0.12);
+      color: #625d55;
+      background: rgba(250, 247, 241, 0.94);
+    }
+
+    .zoom-title {
+      min-width: 0;
+      overflow: hidden;
+      color: #736b60;
+      font-family: "Lora", Georgia, serif;
+      font-size: 0.84rem;
+      font-style: italic;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .zoom-close {
+      width: 36px;
+      height: 36px;
+      flex: 0 0 36px;
+      padding: 0;
+      display: grid;
+      place-items: center;
+      border: 1px solid rgba(151, 117, 48, 0.24);
+      border-radius: 50%;
+      background: rgba(255, 252, 247, 0.86);
+      color: #9a7834;
+      font-size: 1.25rem;
+      line-height: 1;
+      cursor: pointer;
+      transition:
+        border-color 160ms ease,
+        background 160ms ease,
+        box-shadow 160ms ease,
+        transform 160ms ease;
+    }
+
+    .zoom-close:hover,
+    .zoom-close:focus-visible {
+      border-color: rgba(151, 117, 48, 0.48);
+      background: #fffdf9;
+      box-shadow: 0 8px 20px rgba(71, 57, 36, 0.10);
+      transform: translateY(-1px);
+      outline: none;
+    }
+
+    .zoom-stage {
+      min-height: 0;
+      padding: clamp(18px, 3vw, 34px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: auto;
+      background:
+        radial-gradient(
+          circle at center,
+          rgba(255, 255, 255, 0.78),
+          rgba(236, 229, 217, 0.72)
+        );
+    }
+
+    .zoom-image {
+      display: block;
+      width: auto;
+      height: auto;
+      max-width: 100%;
+      max-height: 100%;
+      padding: 8px;
+      border: 1px solid rgba(105, 88, 58, 0.16);
+      border-radius: 5px;
+      background: #eee7dc;
+      box-shadow:
+        0 18px 44px rgba(72, 56, 35, 0.17),
+        inset 0 1px 0 rgba(255, 255, 255, 0.70);
+      object-fit: contain;
+    }
+
+    .about-section {
+      width: min(100%, 880px);
+      margin: clamp(56px, 7vw, 86px) auto 10px;
+      padding: clamp(27px, 3.6vw, 40px) clamp(24px, 4.5vw, 52px);
+      border: 1px solid rgba(92, 76, 44, 0.13);
+      border-radius: 14px;
+      background:
+        linear-gradient(
+          145deg,
+          rgba(255, 253, 249, 0.86),
+          rgba(247, 242, 234, 0.82)
+        );
+      box-shadow:
+        0 18px 42px rgba(71, 57, 36, 0.07),
+        inset 0 1px 0 rgba(255, 255, 255, 0.78);
+      text-align: center;
+    }
+
+    .about-title {
+      margin: 0 0 20px;
+      color: rgba(151, 117, 48, 0.90);
+      font-family: "Lora", Georgia, serif;
+      font-size: clamp(1.20rem, 1.8vw, 1.48rem);
+      font-weight: 500;
+      line-height: 1.25;
+    }
+
+    .about-text {
+      margin: 0;
+      color: rgba(83, 78, 70, 0.90);
+      font-family: "Lora", Georgia, serif;
+      font-size: 0.89rem;
+      line-height: 1.82;
+      text-align: justify;
+      text-align-last: left;
+      text-justify: inter-word;
+      hyphens: auto;
+    }
+
+    .about-text + .about-text {
+      margin-top: 19px;
+      color: rgba(112, 104, 94, 0.76);
+      font-size: 0.78rem;
+      line-height: 1.66;
+    }
+
+    @media (max-width: 680px) {
+      .about-section {
+        margin-top: 44px;
+        padding: 25px 20px 27px;
+        border-radius: 11px;
+      }
+
+      .about-title {
+        margin-bottom: 17px;
+        font-size: 1.18rem;
+      }
+
+      .about-text {
+        font-size: 0.86rem;
+        line-height: 1.75;
+      }
+
+      .about-text + .about-text {
+        margin-top: 17px;
+        font-size: 0.76rem;
+      }
+    }
+
+    .status-message {
+      grid-column: 1 / -1;
+      padding: 70px 20px;
+      color: var(--muted-text);
+      font-family: "Lora", Georgia, serif;
+      font-size: 0.88rem;
+      font-style: italic;
+      text-align: center;
+    }
+
+    .visually-hidden {
+      position: absolute !important;
+      width: 1px !important;
+      height: 1px !important;
+      padding: 0 !important;
+      margin: -1px !important;
+      overflow: hidden !important;
+      clip: rect(0, 0, 0, 0) !important;
+      white-space: nowrap !important;
+      border: 0 !important;
+    }
+
+    @media (max-width: 900px) {
+      .page {
+        width: calc(100% - 30px);
+      }
+
+      .cards-grid {
+        gap: 14px;
+      }
+
+      .art-card {
+        padding: 14px 13px 15px;
+      }
+
+      .image-frame {
+        width: 92%;
+        height: 205px;
+      }
+
+      .art-title {
+        font-size: 1.08rem;
+      }
+
+      .art-description {
+        font-size: 0.73rem;
+        line-height: 1.58;
+      }
+    }
+
+    @media (max-width: 680px) {
+      .page {
+        width: calc(100% - 28px);
+        padding-top: 20px;
+      }
+
+      .project-header {
+        margin-bottom: 22px;
+        padding: 0;
+        align-items: center;
+        text-align: center;
+      }
+
+      .project-title {
+        justify-content: center;
+      }
+
+      .project-title-small {
+        font-size: 0.72rem;
+      }
+
+      .project-title-large {
+        font-size: 1.20rem;
+      }
+
+      .project-title-line {
+        width: 58px;
+        margin-top: 10px;
+      }
+
+      .project-intro {
+        width: calc(100% - 72px);
+        max-width: 520px;
+        margin: 13px auto 0;
+        font-size: 0.73rem;
+        text-align: center;
+        text-wrap: balance;
+      }
+
+      .header-actions {
+        top: -4px;
+        right: 0;
+        gap: 6px;
+      }
+
+      .language-toggle {
+        width: 36px;
+        height: 36px;
+      }
+
+      .cards-grid {
+        display: flex;
+        gap: 16px;
+        overflow-x: auto;
+        padding: 3px 2px 18px;
+        scroll-snap-type: x mandatory;
+        scrollbar-width: none;
+      }
+
+      .cards-grid::-webkit-scrollbar {
+        display: none;
+      }
+
+      .art-card {
+        width: min(84vw, 340px);
+        flex: 0 0 min(84vw, 340px);
+        padding: 15px 14px 17px;
+        scroll-snap-align: center;
+      }
+
+      .image-frame {
+        width: 88%;
+        height: 235px;
+      }
+
+      .art-title {
+        font-size: 1.22rem;
+      }
+
+      .next-card-button {
+        opacity: 0.74;
+      }
+
+      .art-description {
+        max-height: 220px;
+        overflow-y: auto;
+        padding-right: 4px;
+        font-size: 0.82rem;
+        line-height: 1.64;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        scroll-behavior: auto !important;
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
     }
   </style>
 </head>
 
-<body class="min-h-screen flex flex-col items-center p-8 text-neutral-200">
+<body>
+  <main class="page">
+    <header class="project-header">
+      <h1 class="project-title">
+        <span class="project-title-small">The</span>
+        <span class="project-title-large">Little Book</span>
+        <span class="project-title-small">of</span>
+        <span class="project-title-large">Art</span>
+      </h1>
 
-  <header class="text-center mb-16">
-    <h1
-      class="title-font text-4xl tracking-[0.1em] gold-text opacity-90 mb-2"
-    >
-      The Little Book of Art
-    </h1>
+      <div class="project-title-line" aria-hidden="true"></div>
 
-    <div
-      class="w-32 h-[1px] bg-gradient-to-r from-transparent via-[#c5a059] to-transparent mx-auto opacity-50"
-    ></div>
-  </header>
+      <p id="project-intro" class="project-intro">
+        Explore public-domain artworks from digital museum collections through AI-assisted curatorial descriptions.
+      </p>
 
-  <main
-    class="w-full max-w-6xl flex flex-col md:flex-row gap-16 items-center justify-center"
-  >
-
-    <!-- ESER GÖRSELİ -->
-    <div
-      class="w-full md:w-3/5 ornament magical-glow bg-[#0d0d11] rounded-sm transition-all duration-700"
-    >
-      <div
-        class="aspect-[4/5] md:aspect-auto md:h-[65vh] flex items-center justify-center overflow-hidden bg-black shadow-inner"
-      >
-        <img
-          id="artwork-display"
-          src=""
-          alt="Sanat Eseri"
-          class="max-w-full max-h-full object-contain transition-opacity duration-1000 opacity-0"
-        >
-      </div>
-    </div>
-
-    <!-- ESER BİLGİLERİ -->
-    <div class="w-full md:w-2/5 flex flex-col gap-8">
-
-      <div class="flex flex-col gap-4">
-
-        <h2
-          id="art-title"
-          class="title-font text-3xl font-bold leading-tight gold-text tracking-wide border-b border-neutral-800 pb-4"
-        >
-          Yükleniyor…
-        </h2>
-
-        <p
-          id="art-artist"
-          class="text-neutral-400 text-lg italic tracking-wider font-medium"
-        ></p>
-
-        <!-- MİLLİYET, TARİH VE MÜZE ETİKETLERİ -->
-        <div
-          id="art-tags"
-          class="flex flex-wrap gap-2 pt-1"
-        >
-          <span
-            id="nationality-tag"
-            class="art-tag hidden"
-          ></span>
-
-          <span
-            id="date-tag"
-            class="art-tag hidden"
-          ></span>
-
-          <span
-            id="museum-tag"
-            class="art-tag hidden"
-          ></span>
-        </div>
-
-      </div>
-
-      <div class="relative py-2">
-        <p
-          id="art-desc"
-          class="text-neutral-300 leading-relaxed text-lg font-normal tracking-wide text-justify"
-        >
-          Açıklama yükleniyor...
-        </p>
-      </div>
-
-      <div class="mt-4">
+      <div class="header-actions">
+        <div class="language-wrap">
         <button
-          id="next-btn"
-          class="group flex flex-col items-start w-max gap-3 transition-all duration-500"
+          id="language-toggle"
+          class="language-toggle"
+          type="button"
+          aria-label="Dil seç"
+          aria-haspopup="menu"
+          aria-expanded="false"
         >
-          <span
-            class="title-font text-xl tracking-[0.4em] uppercase gold-text group-hover:text-white transition-colors"
-          >
-            Next ✨
-          </span>
-
-          <div
-            class="relative w-24 h-[1px] bg-neutral-800 overflow-hidden"
-          >
-            <div
-              class="absolute inset-0 bg-[#c5a059] translate-x-[-100%] group-hover:translate-x-[0%] transition-transform duration-700"
-            ></div>
-          </div>
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <circle cx="12" cy="12" r="8.5"></circle>
+            <path d="M3.8 12h16.4"></path>
+            <path d="M12 3.5c2.1 2.3 3.2 5.1 3.2 8.5S14.1 18.2 12 20.5"></path>
+            <path d="M12 3.5C9.9 5.8 8.8 8.6 8.8 12s1.1 6.2 3.2 8.5"></path>
+          </svg>
         </button>
-      </div>
 
-    </div>
+        <div id="language-menu" class="language-menu" role="menu" hidden>
+          <button class="language-option" type="button" data-language="tr" role="menuitemradio">
+            <span class="language-code">TR</span>
+          </button>
+          <button class="language-option" type="button" data-language="en" role="menuitemradio">
+            <span class="language-code">EN</span>
+          </button>
+        </div>
+        </div>
+      </div>
+    </header>
+
+    <section id="cards-grid" class="cards-grid" aria-live="polite">
+      <p class="status-message">Eserler yükleniyor…</p>
+    </section>
+
+    <section class="about-section" aria-labelledby="about-title">
+      <h2 id="about-title" class="about-title">The Little Book of Art Hakkında</h2>
+      <p id="about-text-1" class="about-text"></p>
+      <p id="about-text-2" class="about-text"></p>
+    </section>
   </main>
 
-  <footer
-    class="mt-20 opacity-20 title-font text-[10px] tracking-[0.4em] uppercase"
-  >
-    The Little Book of Art Project
-  </footer>
+  <dialog id="zoom-dialog" class="zoom-dialog" aria-labelledby="zoom-title">
+    <div class="zoom-toolbar">
+      <span id="zoom-title" class="zoom-title"></span>
+      <button id="zoom-close" class="zoom-close" type="button" aria-label="Kapat">×</button>
+    </div>
+    <div class="zoom-stage">
+      <img id="zoom-image" class="zoom-image" src="" alt="" />
+    </div>
+  </dialog>
 
   <script>
-    /*
-      FIREBASE HOSTING ANA ADRESİ
-    */
-    const FIREBASE_ROOT =
-      'https://the-little-book-of-art.web.app';
+    'use strict';
 
-    /*
-      KOLEKSİYON JSON DOSYASI
-    */
-    const JSON_URL =
-      `${FIREBASE_ROOT}/data/fuer_juli.json`;
+    const FIREBASE_ROOT = 'https://the-little-book-of-art.web.app';
 
-    /*
-      HTML ELEMANLARI
-    */
-    const imgElement =
-      document.getElementById('artwork-display');
+    const COLLECTION_SOURCES = [
+      {
+        id: 'july',
+        url: `${FIREBASE_ROOT}/data/fuer_juli.json`
+      },
+      {
+        id: 'elsewhere',
+        url: `${FIREBASE_ROOT}/data/elsewhere_collection.json`
+      },
+      {
+        id: 'today',
+        url: `${FIREBASE_ROOT}/data/today_art.json`
+      }
+    ];
 
-    const titleElement =
-      document.getElementById('art-title');
+    const CARD_COUNT = 3;
 
-    const artistElement =
-      document.getElementById('art-artist');
+    const translations = {
+      tr: {
+        intro: 'Kamu malı sanat eserlerini dijital müze koleksiyonlarından yapay zekâ destekli küratoryal açıklamalarla keşfedin.',
+        chooseLanguage: 'Dil seç',
+        next: 'Yeni eser',
+        changing: 'Yeni eser yükleniyor…',
+        enlarge: 'Eseri büyüt',
+        openMuseum: 'Müze sayfasını aç',
+        close: 'Kapat',
+        loading: 'Eserler yükleniyor…',
+        artworkLoading: 'Eser yükleniyor…',
+        loadFailed: 'Eserler yüklenemedi. Lütfen daha sonra tekrar deneyin.',
+        untitled: 'İsimsiz Eser',
+        unknownArtist: 'Sanatçı bilinmiyor',
+        noDescription: 'Bu eser için henüz bir açıklama bulunmuyor.',
+        aboutTitle: 'The Little Book of Art Hakkında',
+        aboutText1: 'The Little Book of Art, sanatla bağ kurmayı kolaylaştırmak için tasarlanmış, yapay zekâ destekli bir sanat keşif projesidir. Sanat tarihi bilgisi gerektirmeyen, kolay okunur metinler aracılığıyla müze koleksiyonlarındaki kamu malı eserleri keşfetmenizi sağlar. Bu metinler her eserin bağlamını, ayırt edici ayrıntılarını ve sanatçının renk, kompozisyon ve görsel anlatım tercihlerini görünür kılar. Amaç size hazır bir yorum sunmak değil, daha yakından bakmanıza ve kendi yorumunuzu oluşturmanıza yardımcı olmaktır.',
+        aboutText2: 'Metinler büyük dil modellerinin desteğiyle oluşturulur ve yayımlanmadan önce dil, açıklık ve içerik tutarlılığı açısından gözden geçirilir. Bir sanat tarihçisi tarafından incelenmez.'
+      },
+      en: {
+        intro: 'Explore public-domain artworks from digital museum collections through AI-assisted curatorial descriptions.',
+        chooseLanguage: 'Choose language',
+        next: 'New artwork',
+        changing: 'Loading a new artwork…',
+        enlarge: 'Enlarge artwork',
+        openMuseum: 'Open museum page',
+        close: 'Close',
+        loading: 'Loading artworks…',
+        artworkLoading: 'Loading artwork…',
+        loadFailed: 'The artworks could not be loaded. Please try again later.',
+        untitled: 'Untitled Artwork',
+        unknownArtist: 'Unknown artist',
+        noDescription: 'No description is available for this artwork yet.',
+        aboutTitle: 'About The Little Book of Art',
+        aboutText1: 'The Little Book of Art is an AI-assisted art discovery project designed to make it easier to connect with art. It lets you explore public-domain works from museum collections through easy-to-read texts that require no prior knowledge of art history. These texts bring each artwork’s context, distinctive details, and the artist’s choices in color, composition, and visual storytelling into view. The aim is not to give you a ready-made interpretation, but to help you look more closely and form your own.',
+        aboutText2: 'Texts are created with the support of large language models and reviewed for language, clarity, and content consistency before publication. They are not reviewed by an art historian.'
+      }
+    };
 
-    const descElement =
-      document.getElementById('art-desc');
+    const ui = {
+      intro: document.getElementById('project-intro'),
+      cardsGrid: document.getElementById('cards-grid'),
+      languageToggle: document.getElementById('language-toggle'),
+      languageMenu: document.getElementById('language-menu'),
+      languageOptions: Array.from(document.querySelectorAll('.language-option')),
+      zoomDialog: document.getElementById('zoom-dialog'),
+      zoomImage: document.getElementById('zoom-image'),
+      zoomTitle: document.getElementById('zoom-title'),
+      zoomClose: document.getElementById('zoom-close'),
+      aboutTitle: document.getElementById('about-title'),
+      aboutText1: document.getElementById('about-text-1'),
+      aboutText2: document.getElementById('about-text-2')
+    };
 
-    const nationalityTag =
-      document.getElementById('nationality-tag');
+    let currentLanguage = getInitialLanguage();
+    let allArtworks = [];
+    let unseenDeck = [];
+    let currentEntries = [];
+    const changingCards = new Set();
 
-    const dateTag =
-      document.getElementById('date-tag');
-
-    const museumTag =
-      document.getElementById('museum-tag');
-
-    const nextBtn =
-      document.getElementById('next-btn');
-
-    /*
-      KOLEKSİYON VERİLERİ
-    */
-    let artworks = [];
-    let lastIndex = -1;
-
-    /*
-      BİRDEN FAZLA ALANDAN İLK DOLU OLANI BULUR
-    */
-    function firstAvailable(...values) {
-      for (const value of values) {
-        if (
-          value !== undefined &&
-          value !== null &&
-          String(value).trim() !== ''
-        ) {
-          return String(value).trim();
+    function getInitialLanguage() {
+      try {
+        const saved = window.localStorage.getItem('little-book-language');
+        if (saved === 'tr' || saved === 'en') {
+          return saved;
         }
+      } catch {
+        // Local storage is optional.
       }
 
+      return document.documentElement.lang === 'en' ? 'en' : 'tr';
+    }
+
+    function t(key) {
+      return translations[currentLanguage][key] ?? translations.tr[key] ?? key;
+    }
+
+    function cleanText(value) {
+      if (value === null || value === undefined) {
+        return '';
+      }
+      return String(value).trim();
+    }
+
+    function firstAvailable(...values) {
+      for (const value of values) {
+        const text = cleanText(value);
+        if (text) {
+          return text;
+        }
+      }
       return '';
     }
 
-    /*
-      ESER BAŞLIĞI
-    */
-    function getTitle(item) {
+    function localized(item, fieldName) {
+      const fallbackLanguage = currentLanguage === 'tr' ? 'en' : 'tr';
       return firstAvailable(
-        item.title_tr,
-        item.title,
-        item.title_en,
-        'İsimsiz Eser'
+        item[`${fieldName}_${currentLanguage}`],
+        item[`${fieldName}_${fallbackLanguage}`],
+        item[fieldName]
       );
     }
 
-    /*
-      SANATÇI
-    */
+    function getTitle(item) {
+      return localized(item, 'title') || t('untitled');
+    }
+
     function getArtist(item) {
       return firstAvailable(
+        item[`artist_name_${currentLanguage}`],
         item.artist,
         item.artist_name,
         item.creator,
-        'Sanatçı bilinmiyor'
+        t('unknownArtist')
       );
     }
 
-    /*
-      TÜRKÇE AÇIKLAMA
-    */
     function getDescription(item) {
+      const fallbackLanguage = currentLanguage === 'tr' ? 'en' : 'tr';
       return firstAvailable(
-        item.ours_description_tr,
-        item.description_tr,
+        item[`ours_description_${currentLanguage}`],
+        item[`description_${currentLanguage}`],
+        item[`museum_description_${currentLanguage}`],
+        item[`ours_description_${fallbackLanguage}`],
+        item[`description_${fallbackLanguage}`],
+        item[`museum_description_${fallbackLanguage}`],
         item.description,
-        item.ours_description_en,
-        item.description_en,
-        'Bu eser için henüz bir açıklama bulunmuyor.'
+        t('noDescription')
       );
     }
 
-    /*
-      SANATÇI MİLLİYETİ
-    */
     function getNationality(item) {
+      const fallbackLanguage = currentLanguage === 'tr' ? 'en' : 'tr';
       return firstAvailable(
-        item.artist_nationality_tr,
+        item[`artist_nationality_${currentLanguage}`],
+        item[`culture_${currentLanguage}`],
+        item[`nationality_${currentLanguage}`],
+        item[`artist_nationality_${fallbackLanguage}`],
+        item[`culture_${fallbackLanguage}`],
+        item[`nationality_${fallbackLanguage}`],
         item.artist_nationality,
-        item.artist_nationality_en,
-        item.nationality_tr,
-        item.nationality,
-        item.culture_tr,
-        item.culture
+        item.culture,
+        item.nationality
       );
     }
 
-    /*
-      ESER TARİHİ
-    */
     function getDate(item) {
-      return firstAvailable(
-        item.date,
-        item.year,
-        item.object_date,
-        item.creation_date
-      );
+      return firstAvailable(item.date, item.year, item.object_date, item.creation_date);
     }
 
-    /*
-      MÜZE ADI
-    */
     function getMuseum(item) {
-      return firstAvailable(
-        item.museum_name_tr,
-        item.museum_name,
-        item.museum_name_en,
-        item.museum,
-        item.institution
-      );
+      return localized(item, 'museum_name') || firstAvailable(item.museum, item.institution);
     }
 
-    /*
-      ESER KİMLİĞİ
-
-      Öncelikle museum_object_id kullanılır.
-      Çünkü görsel dosyasının adı genellikle bu kimliktir.
-    */
-    function getArtworkId(item) {
+    function getObjectId(item) {
       return firstAvailable(
         item.museum_object_id,
         item.object_id,
@@ -339,18 +1181,61 @@
       );
     }
 
-    /*
-      MÜZE KLASÖR ADINI BULUR
+    function getMuseumUrl(item) {
+      const directUrl = firstAvailable(
+        item.object_url,
+        item.objectUrl,
+        item.artwork_url,
+        item.artworkUrl,
+        item.museum_object_url,
+        item.web_url,
+        item.source_url,
+        item.sourceUrl,
+        item.permalink
+      );
 
-      Firebase Hosting örnek yolları:
+      if (directUrl) {
+        try {
+          const parsed = new URL(directUrl, window.location.href);
+          if (parsed.protocol === 'https:' || parsed.protocol === 'http:') {
+            return parsed.toString();
+          }
+        } catch {
+          // Fall back to a museum-specific collection address.
+        }
+      }
 
-      /images/met/435621.jpg
-      /images/aic/123456.jpg
-      /images/cma/12345.jpg
-      /images/rijks/SK-A-1505.jpg
-    */
-    function getMuseumFolder(item) {
-      const museumValue = firstAvailable(
+      const museum = normalizeMuseumFolder(item);
+      const objectId = getObjectId(item);
+      const safeId = encodeURIComponent(objectId);
+
+      if (museum === 'met') {
+        return objectId
+          ? `https://www.metmuseum.org/art/collection/search/${safeId}`
+          : 'https://www.metmuseum.org/art/collection';
+      }
+
+      if (museum === 'aic') {
+        return objectId
+          ? `https://www.artic.edu/artworks/${safeId}`
+          : 'https://www.artic.edu/collection';
+      }
+
+      if (museum === 'rijks') {
+        return objectId
+          ? `https://www.rijksmuseum.nl/en/collection/${safeId}`
+          : 'https://www.rijksmuseum.nl/en/collection';
+      }
+
+      if (museum === 'cma') {
+        return 'https://www.clevelandart.org/art/collection';
+      }
+
+      return '';
+    }
+
+    function normalizeMuseumFolder(item) {
+      const value = firstAvailable(
         item.museum,
         item.museum_code,
         item.museum_id,
@@ -360,362 +1245,624 @@
         item.museum_name
       ).toLowerCase();
 
-      if (
-        museumValue === 'met' ||
-        museumValue.includes('metropolitan')
-      ) {
-        return 'met';
-      }
-
-      if (
-        museumValue === 'aic' ||
-        museumValue.includes('art institute of chicago') ||
-        museumValue.includes('chicago')
-      ) {
-        return 'aic';
-      }
-
-      if (
-        museumValue === 'cma' ||
-        museumValue.includes('cleveland')
-      ) {
-        return 'cma';
-      }
-
-      if (
-        museumValue === 'rijks' ||
-        museumValue === 'rijksmuseum' ||
-        museumValue.includes('rijksmuseum')
-      ) {
-        return 'rijks';
-      }
-
-      return museumValue;
+      if (value === 'met' || value.includes('metropolitan')) return 'met';
+      if (value === 'aic' || value.includes('art institute of chicago') || value.includes('chicago')) return 'aic';
+      if (value === 'cma' || value.includes('cleveland')) return 'cma';
+      if (value === 'rijks' || value === 'rijksmuseum' || value.includes('rijksmuseum')) return 'rijks';
+      return value;
     }
 
-    /*
-      GÖRSEL ADRESİ ADAYLARINI OLUŞTURUR
+    function normalizeImageFile(value) {
+      const file = cleanText(value);
+      if (!file) return '';
+      return /\.(jpg|jpeg|png|webp)$/i.test(file) ? file : `${file}.jpg`;
+    }
 
-      Önce JSON içinde doğrudan görsel yolu varsa onu dener.
-      Sonra images/müze/eser-id.jpg yolunu dener.
+    function addUniqueUrl(urls, value) {
+      const candidate = cleanText(value);
+      if (!candidate) return;
 
-      JPG çalışmazsa JPEG ve PNG de denenir.
-    */
-    function getImageCandidates(item) {
-      const candidates = [];
+      try {
+        const parsed = new URL(candidate, `${FIREBASE_ROOT}/`);
+        if (parsed.protocol !== 'https:' && parsed.protocol !== 'http:') return;
+        const finalUrl = parsed.toString();
+        if (!urls.includes(finalUrl)) urls.push(finalUrl);
+      } catch {
+        // Invalid URL is ignored.
+      }
+    }
 
-      const directImage = firstAvailable(
+    function buildImageUrls(item, jsonData) {
+      const urls = [];
+
+      [
         item.image_url,
         item.imageUrl,
         item.image,
         item.image_path,
         item.imagePath,
         item.local_image,
-        item.localImage
+        item.localImage,
+        item.primary_image,
+        item.primaryImage
+      ].forEach(value => addUniqueUrl(urls, value));
+
+      const museumFolder = normalizeMuseumFolder(item);
+      const imageFile = normalizeImageFile(
+        firstAvailable(
+          item.image_file,
+          item.imageFile,
+          item.local_image_file
+        )
       );
 
-      if (directImage) {
-        if (
-          directImage.startsWith('http://') ||
-          directImage.startsWith('https://')
-        ) {
-          candidates.push(directImage);
-        } else if (directImage.startsWith('/')) {
-          candidates.push(
-            `${FIREBASE_ROOT}${directImage}`
-          );
+      if (museumFolder && imageFile) {
+        const basePath = cleanText(jsonData.image_base_path) || 'images';
+        const template = cleanText(jsonData.image_path_template) || `${basePath}/{museum}/{image_file}`;
+        const relativePath = template
+          .split('{base}').join(basePath)
+          .split('{museum}').join(museumFolder)
+          .split('{image_file}').join(imageFile)
+          .split('\\').join('/')
+          .replace(/^\/+/, '');
+
+        addUniqueUrl(urls, `${FIREBASE_ROOT}/${relativePath}`);
+
+        if (relativePath.startsWith('data/')) {
+          addUniqueUrl(urls, `${FIREBASE_ROOT}/${relativePath.slice(5)}`);
         } else {
-          candidates.push(
-            `${FIREBASE_ROOT}/${directImage}`
-          );
+          addUniqueUrl(urls, `${FIREBASE_ROOT}/data/${relativePath}`);
         }
       }
 
-      const artworkId = getArtworkId(item);
-      const museumFolder = getMuseumFolder(item);
+      const objectId = getObjectId(item);
 
-      if (artworkId && museumFolder) {
-        const safeArtworkId =
-          encodeURIComponent(artworkId);
-
-        candidates.push(
-          `${FIREBASE_ROOT}/images/${museumFolder}/${safeArtworkId}.jpg`
-        );
-
-        candidates.push(
-          `${FIREBASE_ROOT}/images/${museumFolder}/${safeArtworkId}.jpeg`
-        );
-
-        candidates.push(
-          `${FIREBASE_ROOT}/images/${museumFolder}/${safeArtworkId}.png`
-        );
+      if (museumFolder && objectId) {
+        const safeId = encodeURIComponent(objectId);
+        ['jpg', 'jpeg', 'png', 'webp'].forEach(extension => {
+          addUniqueUrl(urls, `${FIREBASE_ROOT}/images/${museumFolder}/${safeId}.${extension}`);
+          addUniqueUrl(urls, `${FIREBASE_ROOT}/data/images/${museumFolder}/${safeId}.${extension}`);
+        });
       }
 
-      /*
-        Aynı adres iki kez oluştuysa tekrarları kaldır.
-      */
-      return [...new Set(candidates)];
+      return urls;
     }
 
-    /*
-      ETİKETİ GÖSTERİR VEYA GİZLER
-    */
-    function setTag(element, value) {
-      if (!value) {
-        element.textContent = '';
-        element.classList.add('hidden');
-        return;
+    function extractArtworkItems(jsonData) {
+      if (Array.isArray(jsonData)) return jsonData;
+      if (!jsonData || typeof jsonData !== 'object') return [];
+
+      const arrayCandidates = [
+        jsonData.items,
+        jsonData.artworks,
+        jsonData.collection,
+        jsonData.results,
+        jsonData.data
+      ];
+
+      for (const candidate of arrayCandidates) {
+        if (Array.isArray(candidate)) return candidate;
       }
 
-      element.textContent = value;
-      element.classList.remove('hidden');
-    }
+      const objectCandidates = [
+        jsonData.item,
+        jsonData.artwork,
+        jsonData.today_art,
+        jsonData.today,
+        jsonData.featured_artwork,
+        jsonData.data
+      ];
 
-    /*
-      RASTGELE ESER SEÇER.
-      AYNI ESERİN ART ARDA GELMESİNİ ENGELLER.
-    */
-    function pickRandomArtwork() {
-      if (artworks.length === 0) {
-        return null;
+      for (const candidate of objectCandidates) {
+        if (candidate && typeof candidate === 'object' && !Array.isArray(candidate)) {
+          return [candidate];
+        }
       }
 
-      let index;
-
-      do {
-        index =
-          Math.floor(Math.random() * artworks.length);
-      } while (
-        index === lastIndex &&
-        artworks.length > 1
+      const looksLikeArtwork = Boolean(
+        jsonData.image_url ||
+        jsonData.image_file ||
+        jsonData.title ||
+        jsonData.title_tr ||
+        jsonData.title_en ||
+        jsonData.artist
       );
 
-      lastIndex = index;
-
-      return artworks[index];
+      return looksLikeArtwork ? [jsonData] : [];
     }
 
-    /*
-      GÖRSEL ADAYLARINI SIRAYLA DENER
-    */
-    function loadArtworkImage(item) {
-      const imageCandidates =
-        getImageCandidates(item);
+    function prepareArtworks(jsonData, sourceId) {
+      return extractArtworkItems(jsonData)
+        .filter(item => item && typeof item === 'object')
+        .map(item => ({
+          item,
+          sourceId,
+          imageUrls: buildImageUrls(item, jsonData)
+        }))
+        .filter(entry => entry.imageUrls.length > 0);
+    }
 
-      let imageIndex = 0;
+    function getArtworkKey(entry) {
+      const item = entry.item || {};
+      return firstAvailable(
+        item.id,
+        item.object_id,
+        item.objectID,
+        item.accession_number,
+        item.image_url,
+        item.image_file,
+        [item.artist, item.title_tr, item.title_en, item.title].filter(Boolean).join('|')
+      );
+    }
 
-      imgElement.classList.remove('opacity-100');
-      imgElement.classList.add('opacity-0');
+    function deduplicate(entries) {
+      const seen = new Set();
+      return entries.filter(entry => {
+        const key = getArtworkKey(entry).toLocaleLowerCase('en-US');
+        if (!key) return true;
+        if (seen.has(key)) return false;
+        seen.add(key);
+        return true;
+      });
+    }
 
-      imgElement.removeAttribute('src');
+    function shuffleArray(values) {
+      const shuffled = [...values];
+      for (let index = shuffled.length - 1; index > 0; index -= 1) {
+        const randomIndex = Math.floor(Math.random() * (index + 1));
+        [shuffled[index], shuffled[randomIndex]] = [shuffled[randomIndex], shuffled[index]];
+      }
+      return shuffled;
+    }
 
-      if (imageCandidates.length === 0) {
-        console.error(
-          'Görsel yolu oluşturulamadı:',
-          item
-        );
+    function refillDeck(excludedKeys = new Set()) {
+      unseenDeck = shuffleArray(
+        allArtworks.filter(entry => !excludedKeys.has(getArtworkKey(entry)))
+      );
+    }
 
+    function takeCandidates(count) {
+      const currentKeys = new Set(currentEntries.map(getArtworkKey));
+      let available = unseenDeck.filter(entry => !currentKeys.has(getArtworkKey(entry)));
+
+      if (available.length < count) {
+        refillDeck(currentKeys);
+        available = [...unseenDeck];
+      }
+
+      const selected = available.slice(0, count);
+      const selectedKeys = new Set(selected.map(getArtworkKey));
+      unseenDeck = unseenDeck.filter(entry => !selectedKeys.has(getArtworkKey(entry)));
+      return selected;
+    }
+
+    function preloadFirstWorkingImage(entry) {
+      return new Promise(resolve => {
+        let index = 0;
+
+        function tryNext() {
+          if (index >= entry.imageUrls.length) {
+            resolve('');
+            return;
+          }
+
+          const url = entry.imageUrls[index];
+          index += 1;
+
+          const image = new Image();
+          image.onload = () => resolve(url);
+          image.onerror = tryNext;
+          image.src = url;
+        }
+
+        tryNext();
+      });
+    }
+
+    async function findDisplayableEntries(count) {
+      const results = [];
+      const usedKeys = new Set();
+      const maxAttempts = Math.max(allArtworks.length * 2, count * 4);
+      let attempts = 0;
+
+      while (results.length < count && attempts < maxAttempts) {
+        let batch = takeCandidates(Math.max(count - results.length, 1));
+
+        if (!batch.length) {
+          batch = shuffleArray(allArtworks);
+        }
+
+        for (const entry of batch) {
+          if (results.length >= count || attempts >= maxAttempts) break;
+          attempts += 1;
+
+          const key = getArtworkKey(entry);
+          if (usedKeys.has(key)) continue;
+
+          const imageUrl = await preloadFirstWorkingImage(entry);
+          if (!imageUrl) continue;
+
+          usedKeys.add(key);
+          results.push({...entry, resolvedImageUrl: imageUrl});
+        }
+      }
+
+      return results;
+    }
+
+    const TAG_ICONS = {
+      globe: `
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <circle cx="12" cy="12" r="8.5"></circle>
+          <path d="M3.8 12h16.4"></path>
+          <path d="M12 3.5c2.2 2.3 3.3 5.1 3.3 8.5S14.2 18.2 12 20.5"></path>
+          <path d="M12 3.5C9.8 5.8 8.7 8.6 8.7 12s1.1 6.2 3.3 8.5"></path>
+        </svg>`,
+      calendar: `
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <rect x="4" y="5.5" width="16" height="14" rx="2"></rect>
+          <path d="M8 3.5v4"></path>
+          <path d="M16 3.5v4"></path>
+          <path d="M4 9.5h16"></path>
+        </svg>`,
+      museum: `
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M3.5 9h17"></path>
+          <path d="M5 9v8.5"></path>
+          <path d="M9.7 9v8.5"></path>
+          <path d="M14.3 9v8.5"></path>
+          <path d="M19 9v8.5"></path>
+          <path d="M3 19.5h18"></path>
+          <path d="M12 3.5 3.5 7.5h17L12 3.5Z"></path>
+        </svg>`
+    };
+
+    function createTag(value, options = {}) {
+      const text = cleanText(value);
+      if (!text) return null;
+
+      const {
+        href = '',
+        label = '',
+        icon = '',
+        museumLink = false
+      } = options;
+
+      const tag = document.createElement(href ? 'a' : 'span');
+      tag.className = href ? 'art-tag art-tag-link' : 'art-tag';
+
+      if (museumLink) {
+        tag.classList.add('art-tag-museum-link');
+      }
+
+      if (icon && TAG_ICONS[icon]) {
+        const iconElement = document.createElement('span');
+        iconElement.className = 'art-tag-icon';
+        iconElement.innerHTML = TAG_ICONS[icon];
+        tag.appendChild(iconElement);
+      }
+
+      const textElement = document.createElement('span');
+      textElement.className = 'art-tag-text';
+      textElement.textContent = text;
+      tag.appendChild(textElement);
+
+      if (href) {
+        if (museumLink) {
+          const sparkle = document.createElement('span');
+          sparkle.className = 'art-tag-sparkle';
+          sparkle.textContent = '✦';
+          sparkle.setAttribute('aria-hidden', 'true');
+          tag.appendChild(sparkle);
+        }
+
+        tag.href = href;
+        tag.target = '_blank';
+        tag.rel = 'noopener noreferrer';
+        tag.title = label || t('openMuseum');
+        tag.setAttribute('aria-label', `${text} — ${label || t('openMuseum')}`);
+      }
+
+      return tag;
+    }
+
+    function openZoom(entry) {
+      const title = getTitle(entry.item);
+      ui.zoomImage.src = entry.resolvedImageUrl;
+      ui.zoomImage.alt = title;
+      ui.zoomTitle.textContent = title;
+      ui.zoomClose.setAttribute('aria-label', t('close'));
+      ui.zoomClose.title = t('close');
+
+      if (typeof ui.zoomDialog.showModal === 'function') {
+        ui.zoomDialog.showModal();
+      } else {
+        ui.zoomDialog.setAttribute('open', '');
+      }
+    }
+
+    function closeZoom() {
+      if (typeof ui.zoomDialog.close === 'function' && ui.zoomDialog.open) {
+        ui.zoomDialog.close();
+      } else {
+        ui.zoomDialog.removeAttribute('open');
+      }
+      ui.zoomImage.removeAttribute('src');
+    }
+
+    function createCard(entry, cardIndex) {
+      const item = entry.item;
+      const article = document.createElement('article');
+      article.className = 'art-card';
+      article.dataset.cardIndex = String(cardIndex);
+
+      const frame = document.createElement('button');
+      frame.className = 'image-frame';
+      frame.type = 'button';
+      frame.setAttribute('aria-label', `${t('enlarge')}: ${getTitle(item)}`);
+      frame.title = t('enlarge');
+      frame.addEventListener('click', () => openZoom(entry));
+
+      const loading = document.createElement('div');
+      loading.className = 'image-loading';
+      loading.textContent = t('artworkLoading');
+
+      const image = document.createElement('img');
+      image.className = 'art-image';
+      image.alt = getTitle(item);
+      image.src = entry.resolvedImageUrl;
+      image.addEventListener('load', () => {
+        loading.hidden = true;
+        image.classList.add('is-visible');
+      }, {once: true});
+      image.addEventListener('error', () => {
+        loading.textContent = t('loadFailed');
+      }, {once: true});
+
+      frame.append(loading, image);
+
+      const content = document.createElement('div');
+      content.className = 'card-content';
+
+      const title = document.createElement('h2');
+      title.className = 'art-title';
+      title.textContent = getTitle(item);
+
+      const artist = document.createElement('p');
+      artist.className = 'art-artist';
+      artist.textContent = getArtist(item);
+
+      const tags = document.createElement('div');
+      tags.className = 'art-tags';
+
+      const nationalityTag = createTag(getNationality(item), {
+        icon: 'globe'
+      });
+      const dateTag = createTag(getDate(item), {
+        icon: 'calendar'
+      });
+      const museumName = getMuseum(item);
+      const museumTag = createTag(museumName, {
+        href: getMuseumUrl(item),
+        label: t('openMuseum'),
+        icon: 'museum',
+        museumLink: true
+      });
+
+      [nationalityTag, dateTag, museumTag]
+        .filter(Boolean)
+        .forEach(tag => tags.appendChild(tag));
+
+      if (!tags.children.length) {
+        tags.hidden = true;
+      }
+
+      const description = document.createElement('p');
+      description.className = 'art-description';
+      description.textContent = getDescription(item);
+
+      const actions = document.createElement('div');
+      actions.className = 'card-actions';
+
+      const nextButton = document.createElement('button');
+      nextButton.className = 'next-card-button';
+      nextButton.type = 'button';
+      nextButton.title = t('next');
+      nextButton.setAttribute('aria-label', `${t('next')}: ${getTitle(item)}`);
+      nextButton.innerHTML = `
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M20 11a8 8 0 1 0-2.34 5.66"></path>
+          <path d="M20 4v7h-7"></path>
+        </svg>
+      `;
+      nextButton.addEventListener('click', () => showNewCard(cardIndex));
+
+      actions.appendChild(nextButton);
+      content.append(title, artist, tags, description, actions);
+      article.append(frame, content);
+      return article;
+    }
+
+    function renderCards(entries) {
+      ui.cardsGrid.innerHTML = '';
+
+      if (!entries.length) {
+        const message = document.createElement('p');
+        message.className = 'status-message';
+        message.textContent = t('loadFailed');
+        ui.cardsGrid.appendChild(message);
         return;
       }
 
-      function tryNextImage() {
-        if (imageIndex >= imageCandidates.length) {
-          console.error(
-            'Hiçbir görsel adresi yüklenemedi:',
-            imageCandidates,
-            item
-          );
+      entries.forEach((entry, index) => {
+        ui.cardsGrid.appendChild(createCard(entry, index));
+      });
+    }
 
-          imgElement.removeAttribute('src');
+    function applyLanguage() {
+      document.documentElement.lang = currentLanguage;
+      ui.intro.textContent = t('intro');
+      ui.languageToggle.setAttribute('aria-label', t('chooseLanguage'));
+      ui.languageToggle.title = t('chooseLanguage');
+      ui.zoomClose.setAttribute('aria-label', t('close'));
+      ui.zoomClose.title = t('close');
+      ui.aboutTitle.textContent = t('aboutTitle');
+      ui.aboutText1.textContent = t('aboutText1');
+      ui.aboutText2.textContent = t('aboutText2');
+
+      ui.languageOptions.forEach(option => {
+        const selected = option.dataset.language === currentLanguage;
+        option.classList.toggle('is-selected', selected);
+        option.setAttribute('aria-checked', String(selected));
+      });
+
+      if (currentEntries.length) {
+        renderCards(currentEntries);
+      } else {
+        const status = ui.cardsGrid.querySelector('.status-message');
+        if (status) status.textContent = t('loading');
+      }
+    }
+
+    async function showInitialCards() {
+      const entries = await findDisplayableEntries(CARD_COUNT);
+      currentEntries = entries;
+      renderCards(entries);
+    }
+
+    async function showNewCard(cardIndex) {
+      if (changingCards.has(cardIndex) || !allArtworks.length) return;
+
+      const oldCard = ui.cardsGrid.querySelector(`[data-card-index="${cardIndex}"]`);
+      if (!oldCard) return;
+
+      changingCards.add(cardIndex);
+      const button = oldCard.querySelector('.next-card-button');
+      if (button) {
+        button.disabled = true;
+        button.title = t('changing');
+      }
+
+      oldCard.classList.add('is-changing');
+      await new Promise(resolve => window.setTimeout(resolve, 260));
+
+      try {
+        const [entry] = await findDisplayableEntries(1);
+        if (!entry) {
+          oldCard.classList.remove('is-changing');
+          if (button) {
+            button.disabled = false;
+            button.title = t('next');
+          }
           return;
         }
 
-        const currentUrl =
-          imageCandidates[imageIndex];
+        currentEntries[cardIndex] = entry;
+        const newCard = createCard(entry, cardIndex);
+        newCard.classList.add('is-entering');
+        oldCard.replaceWith(newCard);
 
-        imageIndex += 1;
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => {
+            newCard.classList.remove('is-entering');
+          });
+        });
+      } catch (error) {
+        console.error('Kart değiştirilemedi:', error);
+        oldCard.classList.remove('is-changing');
+        if (button) {
+          button.disabled = false;
+          button.title = t('next');
+        }
+      } finally {
+        changingCards.delete(cardIndex);
+      }
+    }
 
-        console.log(
-          'Görsel deneniyor:',
-          currentUrl
-        );
+    async function fetchSource(source) {
+      const response = await fetch(`${source.url}?v=${Date.now()}`, {
+        method: 'GET',
+        mode: 'cors',
+        cache: 'no-store',
+        credentials: 'omit',
+        headers: {Accept: 'application/json'}
+      });
 
-        imgElement.src = currentUrl;
+      if (!response.ok) {
+        throw new Error(`${source.id}: HTTP ${response.status}`);
       }
 
-      imgElement.onload = () => {
-        imgElement.classList.remove('opacity-0');
-        imgElement.classList.add('opacity-100');
-      };
-
-      imgElement.onerror = () => {
-        console.warn(
-          'Görsel yüklenemedi:',
-          imgElement.src
-        );
-
-        tryNextImage();
-      };
-
-      tryNextImage();
+      const jsonData = await response.json();
+      return prepareArtworks(jsonData, source.id);
     }
 
-    /*
-      SEÇİLEN ESERİ SAYFADA GÖSTERİR
-    */
-    function showArtwork(item) {
-      if (!item) {
-        return;
-      }
-
-      imgElement.classList.remove('opacity-100');
-      imgElement.classList.add('opacity-0');
-
-      setTimeout(() => {
-        titleElement.textContent =
-          getTitle(item);
-
-        artistElement.textContent =
-          getArtist(item);
-
-        descElement.textContent =
-          getDescription(item);
-
-        setTag(
-          nationalityTag,
-          getNationality(item)
-        );
-
-        setTag(
-          dateTag,
-          getDate(item)
-        );
-
-        setTag(
-          museumTag,
-          getMuseum(item)
-        );
-
-        loadArtworkImage(item);
-      }, 400);
-    }
-
-    /*
-      YENİ RASTGELE ESER GÖSTERİR
-    */
-    function loadRandomArtwork() {
-      const item =
-        pickRandomArtwork();
-
-      showArtwork(item);
-    }
-
-    /*
-      FIREBASE HOSTING'DEKİ JSON DOSYASINI OKUR
-    */
-    async function loadHostedArtworks() {
-      titleElement.textContent =
-        'Yükleniyor…';
-
-      artistElement.textContent =
-        '';
-
-      descElement.textContent =
-        'Eserler koleksiyondan yükleniyor...';
-
-      setTag(nationalityTag, '');
-      setTag(dateTag, '');
-      setTag(museumTag, '');
+    async function loadArtworks() {
+      applyLanguage();
 
       try {
-        const response =
-          await fetch(JSON_URL, {
-            cache: 'no-store'
-          });
+        const results = await Promise.allSettled(COLLECTION_SOURCES.map(fetchSource));
+        const loaded = results.flatMap(result => {
+          if (result.status === 'fulfilled') return result.value;
+          console.warn('Koleksiyon kaynağı yüklenemedi:', result.reason);
+          return [];
+        });
 
-        if (!response.ok) {
-          throw new Error(
-            `JSON alınamadı. HTTP ${response.status}`
-          );
-        }
+        allArtworks = deduplicate(loaded);
+        if (!allArtworks.length) throw new Error('No displayable artwork found.');
 
-        const hostedData =
-          await response.json();
-
-        /*
-          JSON şu biçimlerden herhangi birinde olabilir:
-
-          1. Doğrudan dizi:
-             [ {...}, {...} ]
-
-          2. items alanı:
-             { "items": [ {...}, {...} ] }
-
-          3. artworks alanı:
-             { "artworks": [ {...}, {...} ] }
-        */
-        if (Array.isArray(hostedData)) {
-          artworks = hostedData;
-        } else if (Array.isArray(hostedData.items)) {
-          artworks = hostedData.items;
-        } else if (Array.isArray(hostedData.artworks)) {
-          artworks = hostedData.artworks;
-        } else {
-          throw new Error(
-            'JSON içinde items veya artworks dizisi bulunamadı.'
-          );
-        }
-
-        artworks = artworks.filter(
-          item =>
-            item &&
-            typeof item === 'object'
-        );
-
-        if (artworks.length === 0) {
-          throw new Error(
-            'Koleksiyonda gösterilecek eser bulunamadı.'
-          );
-        }
-
-        loadRandomArtwork();
-
+        refillDeck();
+        await showInitialCards();
       } catch (error) {
         console.error(error);
-
-        titleElement.textContent =
-          'Eserler yüklenemedi';
-
-        artistElement.textContent =
-          '';
-
-        descElement.textContent =
-          `Hata: ${error.message}`;
-
-        setTag(nationalityTag, '');
-        setTag(dateTag, '');
-        setTag(museumTag, '');
-
-        imgElement.removeAttribute('src');
+        ui.cardsGrid.innerHTML = `<p class="status-message">${t('loadFailed')}</p>`;
       }
     }
 
-    /*
-      NEXT BUTONU
-    */
-    nextBtn.addEventListener(
-      'click',
-      loadRandomArtwork
-    );
+    ui.languageToggle.addEventListener('click', event => {
+      event.stopPropagation();
+      const willOpen = ui.languageMenu.hidden;
+      ui.languageMenu.hidden = !willOpen;
+      ui.languageToggle.setAttribute('aria-expanded', String(willOpen));
+    });
 
-    /*
-      SAYFA AÇILINCA VERİLERİ YÜKLE
-    */
-    window.addEventListener(
-      'load',
-      loadHostedArtworks
-    );
+    ui.languageOptions.forEach(option => {
+      option.addEventListener('click', () => {
+        const language = option.dataset.language;
+        if (language !== 'tr' && language !== 'en') return;
+
+        currentLanguage = language;
+        try {
+          window.localStorage.setItem('little-book-language', currentLanguage);
+        } catch {
+          // Local storage is optional.
+        }
+
+        ui.languageMenu.hidden = true;
+        ui.languageToggle.setAttribute('aria-expanded', 'false');
+        applyLanguage();
+      });
+    });
+
+    document.addEventListener('click', event => {
+      if (!event.target.closest('.language-wrap')) {
+        ui.languageMenu.hidden = true;
+        ui.languageToggle.setAttribute('aria-expanded', 'false');
+      }
+    });
+
+    ui.zoomClose.addEventListener('click', closeZoom);
+
+    ui.zoomDialog.addEventListener('click', event => {
+      if (event.target === ui.zoomDialog) {
+        closeZoom();
+      }
+    });
+
+    ui.zoomDialog.addEventListener('close', () => {
+      ui.zoomImage.removeAttribute('src');
+    });
+
+    window.addEventListener('load', loadArtworks);
   </script>
-
 </body>
 </html>
